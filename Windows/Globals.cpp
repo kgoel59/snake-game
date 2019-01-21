@@ -12,5 +12,6 @@ char RIGHT = 'd';
 char SNAKE_CHAR = '*';
 char LEVEL_CHAR = '#';
 char FOOD_CHAR = 'F';
+char OBSTACLE_CHAR = '#';
 
 int  difficulty = 100;

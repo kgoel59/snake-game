@@ -22,6 +22,7 @@ void GameManager::addFood()
       food=std::pair<int,int>(x,y);
 }
 
+
 void GameManager::renderFood()
 {
     GameEngine.moveXY(food.first,food.second);

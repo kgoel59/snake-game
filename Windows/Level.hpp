@@ -5,7 +5,10 @@
 
 class Level:virtual public GameManager 
 {
+  std::vector<std::pair<int, int> > obstacles;
   public:
+	void addObstacle(int);
+	void addObstacleLine(int,char,int,int);
     void render();
 };
 

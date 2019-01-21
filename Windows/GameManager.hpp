@@ -4,6 +4,7 @@
 #include <utility>
 #include "Engine.hpp"
 #include "Globals.hpp"
+#include <vector>
 
 class GameManager
 {

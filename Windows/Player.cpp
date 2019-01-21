@@ -3,6 +3,8 @@
 
 void Player::play()
 {
+  Level::addObstacle(0);
+  Level::addObstacleLine(4,'h',-1,-1);
   Level::render();
   GameManager::addFood();
   GameManager::renderFood();
