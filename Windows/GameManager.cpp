@@ -4,8 +4,6 @@
 GameManager::GameManager()
 {
     score=0;
-	screen_width = GameEngine.screen_width;
-	screen_height = GameEngine.screen_height;
     srand(time(nullptr));
 }
 
@@ -19,7 +17,7 @@ void GameManager::addFood()
           x = rand() % screen_width;
           y = rand() % screen_height;      
       }
-      food=std::pair<int,int>(x,y);
+      food=pair<int,int>(x,y);
 }
 
 

@@ -1,22 +1,18 @@
 #ifndef _GAMEMANAGER_
 #define _GAMEMANAGER_
 
-#include <utility>
-#include "Engine.hpp"
 #include "Globals.hpp"
-#include <vector>
+
 
 class GameManager
 {
-protected:
-    int score;
-    std::pair<int,int> food;
-	int screen_width, screen_height;
 
 public:
+
+	int score = 0;
+
     GameManager();
-    void addFood();
-    void renderFood();
+    void render();
 };
 
 #endif

@@ -1,3 +1,4 @@
+/* Engine Implements WriteConsoleOutput function for faster console output*/
 
 #ifndef  _ENGINE_
 #define _ENGINE_
