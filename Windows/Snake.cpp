@@ -4,7 +4,7 @@
 
 Snake::Snake() :Node("snake")
 {
-	x = 20;
+	x = 30;
 	y = 10;
 	score = 0;
 	bodyLength = 2;
@@ -57,6 +57,16 @@ void Snake::moveSnake(Scene* scene,Food* food)
 	if(die(scene))
 	dead=true;
  }
+  else
+  {
+	  scene->removeLayer("level");
+	  scene->gameRenderer.clear();
+	  scene->gameRenderer.mvprintW(GAME_WIDTH / 2 - 10, GAME_HEIGHT / 2, "GAME OVER");
+	  scene->gameRenderer.mvprintW(GAME_WIDTH / 2 - 10, GAME_HEIGHT / 2 + 1, "SCORE : " + to_string(score));
+	  scene->gameRenderer.refresh();
+	  Sleep(2500);
+	  exit(0);
+  }
 }
 
 void Snake::setDirection(char ch)
@@ -74,6 +84,19 @@ int Snake::die(Scene * scene)
   return 1;
   else
   return 0;
+}
+
+void Snake::reset()
+{
+	x = 30;
+	y = 10;
+	body.clear();
+	bodyLength = 2;
+	for (int i = 1; i <= bodyLength; i++)
+	{
+		body.push_back(pair<int, int>(x - i, y));
+	}
+	direction = 'd';
 }
 
 void Snake::render(Scene* scene)

@@ -11,9 +11,12 @@
 using std::deque;
 using std::pair;
 using std::find;
+using std::to_string;
 
 class Snake:public Node
 {
+public:
+
 	int x,y;
 	int bodyLength;
 	char direction;
@@ -29,5 +32,6 @@ public:
 	void moveSnake(Scene* scene,Food* food);
 	void setDirection(char);
 	int  die(Scene* scene);
+	void reset();
 	void render(Scene* scene);
 };

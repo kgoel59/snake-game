@@ -16,22 +16,21 @@ class Food;
 class Level : public Layer
 {
 	Stage *stage;
-	vector<Stage*> stages;
 
 public:
 
 	Level();
-	void setStage(int num);
+	void loadStage(string filename);
 
 };
 
 class Stage : public Node
 {
-	string *stage = new string[GAME_HEIGHT]; 
-
 public:
    
-	Stage(string id,string filename);
+	string *stage = new string[GAME_HEIGHT];
+
+	Stage();
 	~Stage();
 	void render(Scene* scene);
 };
@@ -46,3 +45,4 @@ public:
 	void addFood(Scene *scene);
 	void render(Scene *scene);
 };
+

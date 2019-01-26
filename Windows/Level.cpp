@@ -1,33 +1,30 @@
 #include "Level.hpp"
+#include<cassert>
 
 //Level---------------------------------------------------------
 
 Level::Level() : Layer("level")
 {
-	stages.push_back(new Stage("stage1", "C:\\Users\\CatBro\\Code Project\\Projects\\Games\\C++\\Snake\\Windows\\stage1.txt"));
-	stages.push_back(new Stage("stage2", "C:\\Users\\CatBro\\Code Project\\Projects\\Games\\C++\\Snake\\Windows\\stage2.txt"));
-
-	Level::addNode(stages[0]);
+	stage = new Stage;
+	Level::addNode(stage);
+	loadStage("Stages\\stage1.txt");
 }
 
-void Level::setStage(int num)
+void Level::loadStage(string filename)
 {
-	if(num < stages.size())
-	Level::addNode(stages[num]);
+	ifstream file;
+	file.open(filename);
+	assert(file);
+	for (int i = 0; i < GAME_HEIGHT; i++)
+	{
+		getline(file, stage->stage[i]);
+	}
+	file.close();
 }
 
 //Stage---------------------------------------------------------
 
-Stage::Stage(string id,string filename) : Node(id)
-{
-	ifstream file;
-	file.open(filename);
-	for (int i = 0; i < GAME_HEIGHT; i++)
-	{
-		getline(file, stage[i]);
-	}
-	file.close();
-}
+Stage::Stage() : Node("stage"){}
 
 Stage::~Stage()
 {

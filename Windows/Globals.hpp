@@ -17,6 +17,6 @@ extern char SNAKE_CHAR;
 extern char HEAD_CHAR;
 extern char WALL_CHAR;
 extern char FOOD_CHAR;
+extern char POISON_CHAR;
 
-extern int  difficulty;
 #endif

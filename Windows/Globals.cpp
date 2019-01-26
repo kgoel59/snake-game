@@ -15,5 +15,4 @@ char SNAKE_CHAR = '*';
 char HEAD_CHAR = 'O';
 char WALL_CHAR = '#';
 char FOOD_CHAR = 'F';
-
-int  difficulty = 100;
+char POISON_CHAR = 'P';
