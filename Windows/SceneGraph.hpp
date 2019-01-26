@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Engine.hpp"
 
 #include <vector>
 #include <string>
@@ -17,10 +18,15 @@ class Scene
 
 public:
 
+	Engine gameRenderer;
+
+	Scene();
+	Scene(int width,int height);
 	~Scene();
 
 	void addLayer(Layer* layer);
-	void deleteLayer(string id);
+	void removeLayer(string id);
+	Layer* getLayer(string id);
 	void render();
 };
 
@@ -32,12 +38,13 @@ public:
 
 	string id;
 
-	Layer(string);
+	Layer(string id);
 	~Layer();
 
 	void addNode(Node* node);
-	void deleteNode(string id);
-	void render();
+	void removeNode(string id);
+	Node* getNode(string id);
+	void render(Scene*);
 };
 
 class Node
@@ -46,8 +53,8 @@ public:
 
 	string id;
 
-	Node(string);
+	Node(string id);
 	virtual ~Node();
 
-	virtual void render() = 0;
+	virtual void render(Scene*) = 0;
 };

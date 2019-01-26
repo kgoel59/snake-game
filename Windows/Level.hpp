@@ -1,15 +1,48 @@
-#ifndef _LEVEL_
-#define _LEVEL_
+#pragma once
 
-#include "GameManager.hpp"
+#include "SceneGraph.hpp"
+#include "Globals.hpp"
 
-class Level:virtual public GameManager 
+#include <fstream>
+#include <vector>
+
+using std::ifstream;
+using std::vector;
+
+class Level;
+class Stage;
+class Food;
+
+class Level : public Layer
 {
-  std::vector<std::pair<int, int> > obstacles;
-  public:
-	void addObstacle(int);
-	void addObstacleLine(int,char,int,int);
-    void render();
+	Stage *stage;
+	vector<Stage*> stages;
+
+public:
+
+	Level();
+	void setStage(int num);
+
 };
 
-#endif
+class Stage : public Node
+{
+	string *stage = new string[GAME_HEIGHT]; 
+
+public:
+   
+	Stage(string id,string filename);
+	~Stage();
+	void render(Scene* scene);
+};
+
+class Food :public Node
+{
+public:
+
+	int x, y;
+
+	Food();
+	void addFood(Scene *scene);
+	void render(Scene *scene);
+};

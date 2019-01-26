@@ -1,7 +1,6 @@
 /* Engine Implements WriteConsoleOutput function for faster console output*/
 
-#ifndef  _ENGINE_
-#define _ENGINE_
+#pragma once
 
 #include <string>
 #include <windows.h>
@@ -14,13 +13,16 @@ class Engine
 	CONSOLE_SCREEN_BUFFER_INFO csbinfo;
 	COORD  cursorPosition = { 0,0 };
 	CHAR_INFO* buffer;
-	int bsize;
 
 public:
 
+	int bsize;
 	int screen_width, screen_height;
 
 	Engine();
+	Engine(int screen_width, int screen_height);
+	~Engine();
+
 	int       moveXY(int x, int y);
 	void    printCh(char ch);
 	void    printW(string str);
@@ -33,4 +35,3 @@ public:
 	void    refresh();
 	void    clear();
 };
-#endif

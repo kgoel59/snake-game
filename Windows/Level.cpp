@@ -1,76 +1,70 @@
 #include "Level.hpp"
 
-void Level::addObstacle(int num)
+//Level---------------------------------------------------------
+
+Level::Level() : Layer("level")
 {
-	while (num--)
+	stages.push_back(new Stage("stage1", "C:\\Users\\CatBro\\Code Project\\Projects\\Games\\C++\\Snake\\Windows\\stage1.txt"));
+	stages.push_back(new Stage("stage2", "C:\\Users\\CatBro\\Code Project\\Projects\\Games\\C++\\Snake\\Windows\\stage2.txt"));
+
+	Level::addNode(stages[0]);
+}
+
+void Level::setStage(int num)
+{
+	if(num < stages.size())
+	Level::addNode(stages[num]);
+}
+
+//Stage---------------------------------------------------------
+
+Stage::Stage(string id,string filename) : Node(id)
+{
+	ifstream file;
+	file.open(filename);
+	for (int i = 0; i < GAME_HEIGHT; i++)
 	{
-		int x, y;
-		x = rand() % screen_width;
-		y = rand() % screen_height;
-		while ((GameEngine.moveXY(x, y) && GameEngine.readCh() != ' '))
-		{
-			x = rand() % screen_width;
-			y = rand() % screen_height;
-		}
-		obstacles.push_back(std::pair<int, int>(x, y));
+		getline(file, stage[i]);
+	}
+	file.close();
+}
+
+Stage::~Stage()
+{
+	delete[] stage;
+}
+
+void Stage::render(Scene * scene)
+{
+	for (int i = 0; i <GAME_HEIGHT; i++)
+	{
+		scene->gameRenderer.mvprintW(0,i,stage[i]);
 	}
 }
 
-void Level::addObstacleLine(int length,char type,int p=-1,int q=-1)
+//Food--------------------------------------------------------------
+
+Food::Food() :Node("food")
 {
-	if (length != 0)
+	x = 0;
+	y = 0;
+}
+
+void Food::addFood(Scene* scene)
+{
+	x = rand() % GAME_WIDTH;
+	y = rand() % GAME_HEIGHT;
+	while ((scene->gameRenderer.moveXY(x, y) && scene->gameRenderer.readCh() != ' '))
 	{
-		if (p < 0 && q < 0)
-		{
-			p = rand() % screen_width;
-			q = rand() % screen_height;
-			while ((GameEngine.moveXY(p, q) && GameEngine.readCh() != ' '))
-			{
-				p = rand() % screen_width;
-				q = rand() % screen_height;
-			}
-			obstacles.push_back(std::pair<int, int>(p, q));
-		}
-		else
-		{
-			if (type == 'h')
-			{
-				if (GameEngine.moveXY(++p, q) && GameEngine.readCh() != ' ')
-				{
-					obstacles.push_back(std::pair<int, int>(p, q));
-					addObstacleLine(--length, type, p, q);
-				}
-			}
-			else if (type == 'v')
-			{
-				if (GameEngine.moveXY(p, ++q) && GameEngine.readCh() != ' ')
-				{
-					obstacles.push_back(std::pair<int, int>(p, q));
-					addObstacleLine(--length, type, p, q);
-				}
-			}
-			else
-				addObstacleLine(length, type, -1, -1);
-		}
+		x = rand() % GAME_WIDTH;
+		y = rand() % GAME_HEIGHT;
 	}
 }
 
-void Level::render()
+void Food::render(Scene* scene)
 {
-  for (int i=0; i<screen_height; i++)
-  {
-      GameEngine.mvprintCh(0, i, LEVEL_CHAR);
-      GameEngine.mvprintCh(screen_width-1, i,LEVEL_CHAR);
-  }
-  for (int i=1; i<screen_width-1; i++)
-  {
-      GameEngine.mvprintCh(i, 0, LEVEL_CHAR);
-     GameEngine.mvprintCh(i, screen_height-1, LEVEL_CHAR);
-  }
+	    if (x == 0 && y == 0)
+		addFood(scene);
 
-  for (auto i = obstacles.begin(); i != obstacles.end(); i++)
-  {
-	  GameEngine.moveXY((*i).first, (*i).second);
-	  GameEngine.printCh(OBSTACLE_CHAR);
-  }
+		scene->gameRenderer.mvprintCh(x, y, FOOD_CHAR);
 }

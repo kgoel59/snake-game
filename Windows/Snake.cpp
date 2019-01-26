@@ -1,67 +1,61 @@
-#include <sstream>
-#include <algorithm>
 #include "Snake.hpp"
 
-using std::stringstream;
-using std::find;
+//Snake-----------------------------------------------------------
 
-void Snake::moveSnake()
+Snake::Snake() :Node("snake")
 {
- if(!dead)
- {
-  if(x==food.first && y==food.second)
-  {
-    eat();
-    addFood();
-  }
-	if(direction==UP)
+	x = 20;
+	y = 10;
+	score = 0;
+	bodyLength = 2;
+	direction = 'd';
+
+	for (int i = 1; i <= bodyLength; i++)
 	{
-		for(int i=bodyLength-1;i>0;i--)
-		{
-			body[i]= body[i-1];
-		}
-		body[0]=pair<int,int>(x,y);
-		y--;
+		body.push_back(pair<int, int>(x - i, y));
 	}
-	if(direction==LEFT)
+}
+
+void Snake::eat()
+{
+	score++;
+	bodyLength++;
+	body.push_back(pair<int, int>(-1, -1));
+}
+
+void Snake::moveSnake(Scene* scene,Food* food)
+{
+  if(!dead)
+  {
+    if(food->x == x && food->y == y)
+    {
+      eat();
+	  food->addFood(scene);
+    }
+
+    if(direction==UP)
+   	{
+	  body.pop_back();
+	  body.push_front(pair<int, int>(x, y--));
+	}
+    if(direction==LEFT)
 	{
-		for(int i=bodyLength-1;i>0;i--)
-		{
-			body[i]= body[i-1];
-		}
-		body[0]=pair<int,int>(x,y);
-		x--;
+	  body.pop_back();
+	  body.push_front(pair<int, int>(x--, y));
 	}
 	if(direction==DOWN)
 	{
-		for(int i=bodyLength-1;i>0;i--)
-		{
-			body[i]= body[i-1];
-		}
-		body[0]=pair<int,int>(x,y);
-		y++;
+	  body.pop_back();
+	  body.push_front(pair<int, int>(x, y++));
 	}
 	if(direction==RIGHT)
 	{
-		for(int i=bodyLength-1;i>0;i--)
-		{
-			body[i]= body[i-1];
-		}
-		body[0]=pair<int,int>(x,y);
-		x++;
+	  body.pop_back();
+	  body.push_front(pair<int, int>(x++, y));
 	}
 
-	if(die())
+	if(die(scene))
 	dead=true;
- }
- else
- {
-     GameEngine.mvprintW(screen_width/2, screen_height/2,"GAMEOVER");
-     GameEngine.moveXY(screen_width/2,screen_height/2+1);
-     stringstream s;
-	 s << "Score :" << score;
-     GameEngine.printW(s.str());
-	 GameEngine.mvprintW(screen_width / 2, screen_height / 2 + 2, "Press q to quit");
  }
 }
 
@@ -73,29 +67,20 @@ void Snake::setDirection(char ch)
   direction=ch;
 }
 
-void Snake::eat()
+int Snake::die(Scene * scene)
 {
-  bodyLength++;
-  score++;
-  body.push_back(pair<int,int>(-1,-1));
-  GameManager::addFood();
-}
-
-int Snake::die()
-{
-  if ((GameEngine.moveXY(x,y) && GameEngine.readCh() == LEVEL_CHAR) || find(body.begin(),body.end(),pair<int,int>(x,y))!=body.end())
+  if ((scene->gameRenderer.moveXY(x,y) && scene->gameRenderer.readCh() == WALL_CHAR)  
+	  || (find(body.begin(),body.end(),pair<int,int>(x,y)) != body.end()) )
   return 1;
   else
-	return 0;
+  return 0;
 }
 
-void Snake::render()
+void Snake::render(Scene* scene)
 {
-  for(auto i=0;i<bodyLength;i++)
+  for(int i=0;i<bodyLength;i++)
   {
-      GameEngine.moveXY(body[i].first, body[i].second);
-      GameEngine.printCh(SNAKE_CHAR);
+       scene->gameRenderer.mvprintCh(body[i].first, body[i].second,SNAKE_CHAR);
   }
-  GameEngine.moveXY(x,y);
-  GameEngine.printCh(SNAKE_CHAR);
+       scene->gameRenderer.mvprintCh(x,y, HEAD_CHAR);
 }

@@ -2,6 +2,10 @@
 
 //Scene-------------------------------------------------------
 
+Scene::Scene(){}
+
+Scene::Scene(int width,int height):gameRenderer(width,height){}
+
 Scene::~Scene()
 {
 	for (auto i = Layers.begin(); i != Layers.end(); i++)
@@ -13,20 +17,27 @@ void Scene::addLayer(Layer* layer)
 	Layers.push_back(layer);
 }
 
-void Scene::deleteLayer(string id)
+void Scene::removeLayer(string id)
 {
 	for (auto i = Layers.begin(); i != Layers.end(); i++)
 		if ((*i)->id == id)
 		{
-			delete *i;
 			Layers.erase(i);
+			break;
 		}
+}
+
+Layer* Scene::getLayer(string id)
+{
+	for (auto i = Layers.begin(); i != Layers.end(); i++)
+		if ((*i)->id == id)
+			return *i;
 }
 
 void Scene::render()
 {
 	for (auto i = Layers.begin(); i != Layers.end(); i++)
-		(*i)->render();
+		(*i)->render(this);
 }
 
 //Layer-----------------------------------------------------
@@ -49,20 +60,29 @@ void Layer::addNode(Node* node)
 	Nodes.push_back(node);
 }
 
-void Layer::deleteNode(string id)
+void Layer::removeNode(string id)
+{
+	for (auto i = Nodes.begin(); i != Nodes.end(); i++)
+	{
+		if ((*i)->id == id)
+		{
+			Nodes.erase(i);
+			break;
+		}
+	}
+}
+
+Node* Layer::getNode(string id)
 {
 	for (auto i = Nodes.begin(); i != Nodes.end(); i++)
 		if ((*i)->id == id)
-		{
-			delete *i;
-			Nodes.erase(i);
-		}
+			return *i;
 }
 
-void Layer::render()
+void Layer::render(Scene* scene)
 {
 	for (auto i = Nodes.begin(); i != Nodes.end(); i++)
-		(*i)->render();
+		(*i)->render(scene);
 }
 
 //Node------------------------------------------------------------

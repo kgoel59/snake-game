@@ -1,31 +1,33 @@
-#ifndef _SNAKE_
-#define _SNAKE_
+#pragma once
 
-#include "GameManager.hpp"
-#include <vector>
+#include "SceneGraph.hpp"
+#include "Globals.hpp"
+#include "Level.hpp"
 
-using std::vector;
+#include <deque>
+#include <utility>
+#include <algorithm>
+
+using std::deque;
 using std::pair;
+using std::find;
 
-class Snake:virtual public GameManager
+class Snake:public Node
 {
 	int x,y;
 	int bodyLength;
 	char direction;
 	bool dead=false;
-	vector<pair<int,int> > body;
-public:
-	Snake():x(20),y(10),bodyLength(2),direction('d'){
-		for(int i=1;i<=bodyLength;i++)
-		{
-			body.push_back(pair<int,int>(x-i,y));
-		}
-	}
-	void eat();
-	void moveSnake();
-	void setDirection(char);
-	int  die();
-	void render();
-};
+	deque <pair<int,int> > body;
 
-#endif
+public:
+	
+	int score;
+
+	Snake();
+	void eat();
+	void moveSnake(Scene* scene,Food* food);
+	void setDirection(char);
+	int  die(Scene* scene);
+	void render(Scene* scene);
+};
