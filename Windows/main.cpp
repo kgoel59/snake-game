@@ -3,9 +3,11 @@
 
 #include<cstdio>
 #include<conio.h>
+#include<ctime>
 
 int main()
 {
+	srand(time(nullptr));
 	//Scenes
 	Scene gameManager(GAME_WIDTH,GAME_HEIGHT);
 
