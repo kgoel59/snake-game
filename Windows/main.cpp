@@ -9,7 +9,7 @@ int main()
 {
 	srand(time(nullptr));
 	//Scenes
-	Scene gameManager(GAME_WIDTH,GAME_HEIGHT);
+	Scene gameManager(GAME_WIDTH,GAME_HEIGHT+1);
 
 	//HEADING FLASH
 	gameManager.gameRenderer.mvprintW(GAME_WIDTH/2-10,GAME_HEIGHT/2, "SNAKE GAME");
@@ -31,7 +31,7 @@ int main()
 	gameManager.render();
 	gameManager.gameRenderer.refresh();
 
-
+	string status = "Level:                                                                                      Score:  ";
 	char key='\0';
 	int stage = 1;
 	while (1)
@@ -45,6 +45,12 @@ int main()
 
 		gameManager.gameRenderer.clear();
 		gameManager.render();
+		
+		//STATUS BAR
+		gameManager.gameRenderer.mvprintW(0,GAME_HEIGHT,status);
+		gameManager.gameRenderer.mvprintW(6,GAME_HEIGHT,to_string(stage));
+		gameManager.gameRenderer.mvprintW(98,GAME_HEIGHT,to_string(snake->score));
+		
 		gameManager.gameRenderer.refresh();
 
 		if (snake->score == 30)
