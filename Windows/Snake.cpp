@@ -61,8 +61,8 @@ void Snake::moveSnake(Scene* scene,Food* food)
   {
 	  scene->removeLayer("level");
 	  scene->gameRenderer.clear();
-	  scene->gameRenderer.mvprintW(GAME_WIDTH / 2 - 10, GAME_HEIGHT / 2, "GAME OVER");
-	  scene->gameRenderer.mvprintW(GAME_WIDTH / 2 - 10, GAME_HEIGHT / 2 + 1, "SCORE : " + to_string(score));
+	  scene->gameRenderer.mvprintW(GAME_WIDTH / 2 - 4, GAME_HEIGHT / 2, "GAME OVER");
+	  scene->gameRenderer.mvprintW(GAME_WIDTH / 2 - 4, GAME_HEIGHT / 2 + 1, "SCORE : " + to_string(score));
 	  scene->gameRenderer.refresh();
 	  Sleep(2500);
 	  exit(0);
